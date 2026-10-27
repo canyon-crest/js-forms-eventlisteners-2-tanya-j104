@@ -17,7 +17,9 @@
 
 // STEP 1: Get the "Shout" button by its ID ("btnShout")
 //         using document.getElementById()
-
+document.getElementById('btnShout').addEventListener('click', function(){
+    outShout.innerHTML = shoutInput.value.toUpperCase() + "!";
+})
 // STEP 2: Add a click event listener to the button.
 //         Inside the listener function:
 //         a) Get the text from the input with ID "shoutInput"
@@ -83,3 +85,70 @@
 //         c) Uncheck ALL topping checkboxes (loop through them)
 //         d) Set the service dropdown value to "dinein"
 //         e) Set the output paragraph innerHTML to ""
+// 
+document.getElementById('btnCalc').addEventListener('click', function() {
+    
+    let sizePrice = 0;
+    let sizeRadios = document.getElementsByName("rg");
+    for (let i = 0; i < sizeRadios.length; i++) {
+        if (sizeRadios[i].checked) {
+            sizePrice = parseFloat(sizeRadios[i].value);
+            break; 
+        }
+    }
+
+    
+    let toppingCount = 0;
+    let toppingCheckboxes = document.getElementsByName("cb");
+    for (let i = 0; i < toppingCheckboxes.length; i++) {
+        if (toppingCheckboxes[i].checked) {
+            toppingCount++;
+        }
+    }
+    let toppingsPrice = toppingCount * 0.50;
+
+    let serviceValue = document.getElementById("serviceSelect").value;
+    let serviceFee = 0;
+    
+    if (serviceValue === "dinein") {
+        serviceFee = 0;
+    } else if (serviceValue === "takeout") {
+        serviceFee = 1.50;
+    } else if (serviceValue === "delivery") {
+        serviceFee = 3.00;
+    }
+
+   
+    let total = sizePrice + toppingsPrice + serviceFee;
+
+   
+    let customerName = document.getElementById("myInput").value.trim();
+    if (customerName === "") {
+        customerName = "Customer";
+    }
+
+    
+    document.getElementById("myPara").innerHTML = customerName + ", your total is $" + total.toFixed(2);
+});
+
+
+document.getElementById('clearBtn').addEventListener('click', function() {
+    
+    
+    document.getElementById("myInput").value = "";
+
+   
+    document.getElementById("r3").checked = true;
+
+    
+    let toppingCheckboxes = document.getElementsByName("cb");
+    for (let i = 0; i < toppingCheckboxes.length; i++) {
+        toppingCheckboxes[i].checked = false;
+    }
+
+    
+    document.getElementById("serviceSelect").value = "dinein";
+
+   
+    document.getElementById("myPara").innerHTML = "";
+});
